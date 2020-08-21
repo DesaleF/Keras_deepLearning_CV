@@ -18,7 +18,7 @@ def identity(X, f, filters, stage, block):
     # shortcut/ skip X
     skip_X = X
     # block one
-    X = Conv2D(filtersize=filter1, kernel_size=(1, 1), strides=(1, 1),
+    X = Conv2D(filters=filter1, kernel_size=(1, 1), strides=(1, 1),
                padding='valid', name=conv_name+'2a')(X)
 
     X = BatchNormalization(axis=3, name=bn_name+'2a')(X)

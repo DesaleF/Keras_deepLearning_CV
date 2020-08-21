@@ -40,10 +40,10 @@ def conv_block(X, f, filters, stage, block, s=2):
     # block three
     X = Conv2D(filters=filter3, kernel_size=(1, 1), strides=(
         1, 1), padding='valid', name=conv_name+'2c')(X)
-    X = BatchNormalization(axis=3, name=bn_name+'2c')
+    X = BatchNormalization(axis=3, name=bn_name+'2c')(X)
 
     # reduce the dimension
-    skip_X = Conv2D(filters=filter1, kernel_size=(1, 1), strides=(s, s),
+    skip_X = Conv2D(filters=filter3, kernel_size=(1, 1), strides=(s, s),
                     padding='valid', name=conv_name+'skip')(skip_X)
     skip_X = BatchNormalization(axis=3, name=bn_name+'skip')(skip_X)
 
