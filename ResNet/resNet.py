@@ -2,20 +2,12 @@
 # First thing first, import all the neccesary modules
 
 import matplotlib.pyplot as plt
-import scipy.misc
-from keras.initializers import glorot_uniform
 from keras.utils import plot_model
-from keras.utils.vis_utils import model_to_dot
-from IPython.display import SVG
-from keras.applications.imagenet_utils import preprocess_input
-from keras.utils.data_utils import get_file
-from keras.utils import layer_utils
 from keras.preprocessing import image
-from keras.models import Model, load_model
-from keras.layers import MaxPooling2D, GlobalMaxPooling2D
+from keras.models import Model
+from keras.layers import MaxPooling2D
 from keras.layers import BatchNormalization, Flatten, Conv2D, AveragePooling2D
 from keras.layers import Input, Dense, Activation, ZeroPadding2D
-from keras import layers
 import numpy as np
 import keras.backend as K
 import os
@@ -84,12 +76,11 @@ if __name__ == '__main__':
     print('no module error')
 
     # just to see the filenames one in each category
-    # uncomment the following 4 lines to see the full path of the images
-    # for dirname, p, filenames in os.walk('intel_image_classification'):
-    #     for filename in filenames:
-    #         print(os.path.join(dirname, filename), p)
-    #         break
-
+    for dirname, p, filenames in os.walk('intel_image_classification'):
+        for filename in filenames:
+            print(os.path.join(dirname, filename), p)
+            break
+    print('_________________________________________________________________')
     # rescale pixel values for efficiency , data augmentation for train set
     train_proces = image.ImageDataGenerator(rescale=1./255, zoom_range=0.2,
                                             horizontal_flip=True)
@@ -115,17 +106,17 @@ if __name__ == '__main__':
     # n should be less than 64
     n = 3
     # syntax for create subplots
-    # fig, axs = plt.subplots(n, n)
-    # fig.tight_layout()
-    # # next image after each iteration
-    # c = 1
-    # for i in range(n):
-    #     for j in range(n):
-    #         # selected a batch
-    #         axs[i, j].imshow(np.reshape(train_set[0][0][c], [150, 150, 3]))
-    #         axs[i, j].set_title(classes[np.argmax(train_set[0][1][c])])
-    #         c += 1
-    # plt.show()
+    fig, axs = plt.subplots(n, n)
+    fig.tight_layout()
+    # next image after each iteration
+    c = 1
+    for i in range(n):
+        for j in range(n):
+            # selected a batch
+            axs[i, j].imshow(np.reshape(train_set[0][0][c], [150, 150, 3]))
+            axs[i, j].set_title(classes[np.argmax(train_set[0][1][c])])
+            c += 1
+    plt.show()
 
     # Now, create the model and train using the above data
     model = ResNet50(input_shape=(150, 150, 3), classes=6)
@@ -141,7 +132,11 @@ if __name__ == '__main__':
                         epochs=1,
                         verbose=1
                         )
+    # save the trained model and save modelplot as image
+    model.save('saved_model')
+    plot_model(model, to_file='model.png')
 
+    # evaluate the performance of the model
     preds = model.evaluate(test_set)
     print("Loss = " + str(preds[0]))
     print("Test Accuracy = " + str(preds[1]))
