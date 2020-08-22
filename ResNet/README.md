@@ -4,6 +4,8 @@ The dataset used in this practice is intel-image-classification from kaggle at t
 You can find the details about the details in the kaggle website. But give you a short note the size  of the images is (150, 150, 3).
 To give you visual sample the images looks like as follow:
 ![classification images](sampleImageswiththierclass.png)
+
+
 The network architecture used for this practice is ResNet50
 ![ResNet50 architecture](ResNet-50-architecture-26-shown-with-the-residual-units-the-size-of-the-filters-and.png)
 
